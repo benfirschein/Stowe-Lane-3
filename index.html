@@ -1,131 +1,130 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Stowe Lane Parcels</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <style>
-        #map { height: 100vh; }
-        .label-text {
-            font-size: 12px;
-            color: black;
-            background: rgba(255,255,255,0.7);
-            padding: 2px;
-            border-radius: 2px;
-        }
-    </style>
+  <title>Stowe Lane Parcels</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    #map {
+      width: 100%;
+      height: 100vh;
+    }
+    .label {
+      font-size: 12px;
+      font-weight: bold;
+      background: rgba(255,255,255,0.6);
+      border-radius: 4px;
+      padding: 2px 4px;
+    }
+  </style>
 </head>
 <body>
-    <div id="map"></div>
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script>
-        var map = L.map('map').setView([37.4185, -122.1965], 19);
+  <div id="map"></div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    var map = L.map('map').setView([37.41954, -122.18885], 20);
 
-        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-            maxZoom: 20,
-            attribution: 'Tiles © Esri'
-        }).addTo(map);
+    L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+      maxZoom: 22,
+      subdomains:['mt0','mt1','mt2','mt3']
+    }).addTo(map);
 
-        var parcelData = {
-            "type": "FeatureCollection",
-            "features": [
-                {
-                    "type": "Feature",
-                    "properties": { "APN": "074-311-510" },
-                    "geometry": {
-                        "type": "Polygon",
-                        "coordinates": [[
-                            [-122.196860, 37.418418],
-                            [-122.196617, 37.418421],
-                            [-122.196608, 37.418270],
-                            [-122.196854, 37.418265],
-                            [-122.196860, 37.418418]
-                        ]]
-                    }
-                },
-                {
-                    "type": "Feature",
-                    "properties": { "APN": "074-311-520" },
-                    "geometry": {
-                        "type": "Polygon",
-                        "coordinates": [[
-                            [-122.197089, 37.418411],
-                            [-122.196866, 37.418416],
-                            [-122.196854, 37.418265],
-                            [-122.197075, 37.418261],
-                            [-122.197089, 37.418411]
-                        ]]
-                    }
-                },
-                {
-                    "type": "Feature",
-                    "properties": { "APN": "074-311-530" },
-                    "geometry": {
-                        "type": "Polygon",
-                        "coordinates": [[
-                            [-122.197322, 37.418403],
-                            [-122.197102, 37.418408],
-                            [-122.197086, 37.418258],
-                            [-122.197309, 37.418253],
-                            [-122.197322, 37.418403]
-                        ]]
-                    }
-                },
-                {
-                    "type": "Feature",
-                    "properties": { "APN": "074-311-540" },
-                    "geometry": {
-                        "type": "Polygon",
-                        "coordinates": [[
-                            [-122.197538, 37.418396],
-                            [-122.197329, 37.418401],
-                            [-122.197316, 37.418252],
-                            [-122.197528, 37.418248],
-                            [-122.197538, 37.418396]
-                        ]]
-                    }
-                },
-                {
-                    "type": "Feature",
-                    "properties": { "APN": "074-311-550" },
-                    "geometry": {
-                        "type": "Polygon",
-                        "coordinates": [[
-                            [-122.197738, 37.418389],
-                            [-122.197548, 37.418393],
-                            [-122.197535, 37.418245],
-                            [-122.197728, 37.418240],
-                            [-122.197738, 37.418389]
-                        ]]
-                    }
-                }
-            ]
-        };
+    var parcelStyle = {
+      color: "black",
+      weight: 2,
+      fillColor: "gray",
+      fillOpacity: 0.7
+    };
 
-        var parcelStyle = {
-            color: "black",
-            weight: 1,
-            fillColor: "gray",
-            fillOpacity: 0.6
-        };
-
-        function onEachFeature(feature, layer) {
-            if (feature.properties && feature.properties.APN) {
-                var center = layer.getBounds().getCenter();
-                var label = L.divIcon({
-                    className: 'label-text',
-                    html: feature.properties.APN,
-                    iconSize: null
-                });
-                L.marker(center, { icon: label }).addTo(map);
-            }
+    var geojson = {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": { "APN": "074-311-510" },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [[
+              [-122.189379, 37.419523],
+              [-122.189379, 37.419662],
+              [-122.189107, 37.419662],
+              [-122.189107, 37.419523],
+              [-122.189379, 37.419523]
+            ]]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": { "APN": "074-311-520" },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [[
+              [-122.189107, 37.419523],
+              [-122.189107, 37.419662],
+              [-122.18884,  37.419662],
+              [-122.18884,  37.419523],
+              [-122.189107, 37.419523]
+            ]]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": { "APN": "074-311-530" },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [[
+              [-122.18884,  37.419523],
+              [-122.18884,  37.419662],
+              [-122.18857,  37.419662],
+              [-122.18857,  37.419523],
+              [-122.18884,  37.419523]
+            ]]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": { "APN": "074-311-540" },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [[
+              [-122.18857,  37.419523],
+              [-122.18857,  37.419662],
+              [-122.1883,   37.419662],
+              [-122.1883,   37.419523],
+              [-122.18857,  37.419523]
+            ]]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": { "APN": "074-311-550" },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [[
+              [-122.1883,   37.419523],
+              [-122.1883,   37.419662],
+              [-122.18805,  37.419662],
+              [-122.18805,  37.419523],
+              [-122.1883,   37.419523]
+            ]]
+          }
         }
+      ]
+    };
 
-        L.geoJSON(parcelData, {
-            style: parcelStyle,
-            onEachFeature: onEachFeature
-        }).addTo(map);
-    </script>
+    L.geoJSON(geojson, {
+      style: parcelStyle,
+      onEachFeature: function (feature, layer) {
+        if (feature.properties && feature.properties.APN) {
+          layer.bindTooltip("APN: " + feature.properties.APN, {
+            permanent: true,
+            direction: "center",
+            className: "label"
+          });
+        }
+      }
+    }).addTo(map);
+  </script>
 </body>
 </html>
