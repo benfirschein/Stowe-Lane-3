@@ -1,26 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Stowe Lane Parcels</title>
   <meta charset="utf-8" />
+  <title>Stowe Lane Parcels</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    #map { height: 100vh; width: 100%; }
-  </style>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <style>
+    html, body, #map {
+      height: 100%;
+      margin: 0;
+    }
+    .leaflet-tooltip {
+      background-color: rgba(255, 255, 255, 0.8);
+      border: 1px solid #999;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 12px;
+    }
+  </style>
 </head>
 <body>
   <div id="map"></div>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    var map = L.map('map').setView([37.434, -122.19], 18);
+    const map = L.map('map').setView([37.4199, -122.1892], 18);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 20,
-      attribution: '© OpenStreetMap contributors'
+      attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    var parcelData = {
+    const parcelStyle = {
+      color: 'black',
+      weight: 1.5,
+      fillColor: '#888',
+      fillOpacity: 0.6
+    };
+
+    const geojson = {
       "type": "FeatureCollection",
       "features": [
         {
@@ -29,31 +45,82 @@
           "geometry": {
             "type": "Polygon",
             "coordinates": [[
-              [-122.1906, 37.4347],
-              [-122.1903, 37.4347],
-              [-122.1903, 37.4345],
-              [-122.1906, 37.4345],
-              [-122.1906, 37.4347]
+              [-122.189290, 37.419911],
+              [-122.189264, 37.419717],
+              [-122.189013, 37.419750],
+              [-122.189036, 37.419946],
+              [-122.189290, 37.419911]
+            ]]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": { "APN": "074-311-520" },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [[
+              [-122.189022, 37.419746],
+              [-122.188997, 37.419553],
+              [-122.188746, 37.419586],
+              [-122.188769, 37.419781],
+              [-122.189022, 37.419746]
+            ]]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": { "APN": "074-311-530" },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [[
+              [-122.188732, 37.419588],
+              [-122.188707, 37.419394],
+              [-122.188456, 37.419427],
+              [-122.188479, 37.419622],
+              [-122.188732, 37.419588]
+            ]]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": { "APN": "074-311-540" },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [[
+              [-122.188449, 37.419426],
+              [-122.188425, 37.419233],
+              [-122.188173, 37.419266],
+              [-122.188197, 37.419459],
+              [-122.188449, 37.419426]
+            ]]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": { "APN": "074-311-550" },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [[
+              [-122.188160, 37.419264],
+              [-122.188135, 37.419071],
+              [-122.187884, 37.419104],
+              [-122.187907, 37.419297],
+              [-122.188160, 37.419264]
             ]]
           }
         }
-        // Add more parcels here as needed
       ]
     };
 
-    var parcelLayer = L.geoJSON(parcelData, {
-      style: function () {
-        return {
-          color: "#000000",
-          fillColor: "#888888",
-          fillOpacity: 0.5,
-          weight: 1
-        };
-      },
+    L.geoJSON(geojson, {
+      style: parcelStyle,
       onEachFeature: function (feature, layer) {
-        if (feature.properties && feature.properties.APN) {
-          layer.bindTooltip("APN: " + feature.properties.APN, { permanent: true, direction: "center" });
-        }
+        const apn = feature.properties.APN || "No APN";
+        layer.bindTooltip(apn, {
+          permanent: true,
+          direction: 'center',
+          className: 'leaflet-tooltip'
+        });
       }
     }).addTo(map);
   </script>
