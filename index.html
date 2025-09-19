@@ -13,7 +13,8 @@
     .label {
       font-size: 12px;
       font-weight: bold;
-      background: rgba(255,255,255,0.6);
+      color: black;
+      background: rgba(255, 255, 255, 0.6);
       border-radius: 4px;
       padding: 2px 4px;
     }
@@ -23,8 +24,7 @@
   <div id="map"></div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
-    var map = L.map('map').setView([37.41954, -122.18885], 20);
-
+    var map = L.map('map').setView([37.428, -122.192], 20);
     L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
       maxZoom: 22,
       subdomains:['mt0','mt1','mt2','mt3']
@@ -40,76 +40,8 @@
     var geojson = {
       "type": "FeatureCollection",
       "features": [
-        {
-          "type": "Feature",
-          "properties": { "APN": "074-311-510" },
-          "geometry": {
-            "type": "Polygon",
-            "coordinates": [[
-              [-122.189379, 37.419523],
-              [-122.189379, 37.419662],
-              [-122.189107, 37.419662],
-              [-122.189107, 37.419523],
-              [-122.189379, 37.419523]
-            ]]
-          }
-        },
-        {
-          "type": "Feature",
-          "properties": { "APN": "074-311-520" },
-          "geometry": {
-            "type": "Polygon",
-            "coordinates": [[
-              [-122.189107, 37.419523],
-              [-122.189107, 37.419662],
-              [-122.18884,  37.419662],
-              [-122.18884,  37.419523],
-              [-122.189107, 37.419523]
-            ]]
-          }
-        },
-        {
-          "type": "Feature",
-          "properties": { "APN": "074-311-530" },
-          "geometry": {
-            "type": "Polygon",
-            "coordinates": [[
-              [-122.18884,  37.419523],
-              [-122.18884,  37.419662],
-              [-122.18857,  37.419662],
-              [-122.18857,  37.419523],
-              [-122.18884,  37.419523]
-            ]]
-          }
-        },
-        {
-          "type": "Feature",
-          "properties": { "APN": "074-311-540" },
-          "geometry": {
-            "type": "Polygon",
-            "coordinates": [[
-              [-122.18857,  37.419523],
-              [-122.18857,  37.419662],
-              [-122.1883,   37.419662],
-              [-122.1883,   37.419523],
-              [-122.18857,  37.419523]
-            ]]
-          }
-        },
-        {
-          "type": "Feature",
-          "properties": { "APN": "074-311-550" },
-          "geometry": {
-            "type": "Polygon",
-            "coordinates": [[
-              [-122.1883,   37.419523],
-              [-122.1883,   37.419662],
-              [-122.18805,  37.419662],
-              [-122.18805,  37.419523],
-              [-122.1883,   37.419523]
-            ]]
-          }
-        }
+        // REPLACE THIS COMMENT WITH YOUR PARCEL FEATURES
+        // If you’re using GitHub: paste your GeoJSON content here directly
       ]
     };
 
