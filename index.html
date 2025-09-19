@@ -1,62 +1,122 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Stowe Lane Parcels</title>
   <meta charset="utf-8" />
+  <title>Stowe Lane Parcels Map</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <style>
-    #map {
-      width: 100%;
-      height: 100vh;
-    }
-    .label {
-      font-size: 12px;
-      font-weight: bold;
-      color: black;
-      background: rgba(255, 255, 255, 0.6);
-      border-radius: 4px;
-      padding: 2px 4px;
-    }
-  </style>
+  <style>html, body, #map { height: 100%; margin: 0; }</style>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-sA+4psmWWLJz0pmtw6HtTQxT0tTPBfKc78X2nP57wNE="
+    crossorigin=""
+  />
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-pMprVKbP1aZnGHn2AAtV+KQkDkEQkD1MFLUo6H0hVU8="
+    crossorigin=""
+  ></script>
 </head>
 <body>
-  <div id="map"></div>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script>
-    var map = L.map('map').setView([37.428, -122.192], 20);
-    L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-      maxZoom: 22,
-      subdomains:['mt0','mt1','mt2','mt3']
-    }).addTo(map);
+<div id="map"></div>
+<script>
+  var map = L.map('map').setView([37.423858, -122.186372], 20);  // Adjust if needed
 
-    var parcelStyle = {
-      color: "black",
-      weight: 2,
-      fillColor: "gray",
-      fillOpacity: 0.7
-    };
+  L.tileLayer(
+    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+    maxZoom: 22
+  }).addTo(map);
 
-    var geojson = {
-      "type": "FeatureCollection",
-      "features": [
-        // REPLACE THIS COMMENT WITH YOUR PARCEL FEATURES
-        // If you’re using GitHub: paste your GeoJSON content here directly
-      ]
-    };
+  var parcels = [
+    {
+      "type": "Feature",
+      "properties": { "APN": "074-311-510" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.18661, 37.42395],
+          [-122.18631, 37.42395],
+          [-122.18631, 37.42372],
+          [-122.18661, 37.42372],
+          [-122.18661, 37.42395]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "APN": "074-311-520" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.18661, 37.42372],
+          [-122.18631, 37.42372],
+          [-122.18631, 37.42348],
+          [-122.18661, 37.42348],
+          [-122.18661, 37.42372]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "APN": "074-311-530" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.18661, 37.42348],
+          [-122.18631, 37.42348],
+          [-122.18631, 37.42324],
+          [-122.18661, 37.42324],
+          [-122.18661, 37.42348]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "APN": "074-311-540" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.18661, 37.42324],
+          [-122.18631, 37.42324],
+          [-122.18631, 37.42300],
+          [-122.18661, 37.42300],
+          [-122.18661, 37.42324]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "APN": "074-311-550" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.18661, 37.42300],
+          [-122.18631, 37.42300],
+          [-122.18631, 37.42276],
+          [-122.18661, 37.42276],
+          [-122.18661, 37.42300]
+        ]]
+      }
+    }
+  ];
 
-    L.geoJSON(geojson, {
-      style: parcelStyle,
+  parcels.forEach(function(feature) {
+    var layer = L.geoJSON(feature, {
+      style: {
+        color: "black",
+        weight: 2,
+        fillColor: "gray",
+        fillOpacity: 0.7
+      },
       onEachFeature: function (feature, layer) {
         if (feature.properties && feature.properties.APN) {
-          layer.bindTooltip("APN: " + feature.properties.APN, {
-            permanent: true,
-            direction: "center",
-            className: "label"
-          });
+          layer.bindTooltip(feature.properties.APN, { permanent: false, direction: "top" });
         }
       }
-    }).addTo(map);
-  </script>
+    });
+    layer.addTo(map);
+  });
+</script>
 </body>
 </html>
