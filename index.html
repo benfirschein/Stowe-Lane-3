@@ -1,128 +1,131 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8" />
-  <title>Stowe Lane Parcels</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <style>
-    html, body, #map {
-      height: 100%;
-      margin: 0;
-    }
-    .leaflet-tooltip {
-      background-color: rgba(255, 255, 255, 0.8);
-      border: 1px solid #999;
-      border-radius: 4px;
-      padding: 2px 6px;
-      font-size: 12px;
-    }
-  </style>
+    <title>Stowe Lane Parcels</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        #map { height: 100vh; }
+        .label-text {
+            font-size: 12px;
+            color: black;
+            background: rgba(255,255,255,0.7);
+            padding: 2px;
+            border-radius: 2px;
+        }
+    </style>
 </head>
 <body>
-  <div id="map"></div>
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <script>
-    const map = L.map('map').setView([37.4199, -122.1892], 18);
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([37.4185, -122.1965], 19);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            maxZoom: 20,
+            attribution: 'Tiles © Esri'
+        }).addTo(map);
 
-    const parcelStyle = {
-      color: 'black',
-      weight: 1.5,
-      fillColor: '#888',
-      fillOpacity: 0.6
-    };
+        var parcelData = {
+            "type": "FeatureCollection",
+            "features": [
+                {
+                    "type": "Feature",
+                    "properties": { "APN": "074-311-510" },
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[
+                            [-122.196860, 37.418418],
+                            [-122.196617, 37.418421],
+                            [-122.196608, 37.418270],
+                            [-122.196854, 37.418265],
+                            [-122.196860, 37.418418]
+                        ]]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": { "APN": "074-311-520" },
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[
+                            [-122.197089, 37.418411],
+                            [-122.196866, 37.418416],
+                            [-122.196854, 37.418265],
+                            [-122.197075, 37.418261],
+                            [-122.197089, 37.418411]
+                        ]]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": { "APN": "074-311-530" },
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[
+                            [-122.197322, 37.418403],
+                            [-122.197102, 37.418408],
+                            [-122.197086, 37.418258],
+                            [-122.197309, 37.418253],
+                            [-122.197322, 37.418403]
+                        ]]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": { "APN": "074-311-540" },
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[
+                            [-122.197538, 37.418396],
+                            [-122.197329, 37.418401],
+                            [-122.197316, 37.418252],
+                            [-122.197528, 37.418248],
+                            [-122.197538, 37.418396]
+                        ]]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": { "APN": "074-311-550" },
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[
+                            [-122.197738, 37.418389],
+                            [-122.197548, 37.418393],
+                            [-122.197535, 37.418245],
+                            [-122.197728, 37.418240],
+                            [-122.197738, 37.418389]
+                        ]]
+                    }
+                }
+            ]
+        };
 
-    const geojson = {
-      "type": "FeatureCollection",
-      "features": [
-        {
-          "type": "Feature",
-          "properties": { "APN": "074-311-510" },
-          "geometry": {
-            "type": "Polygon",
-            "coordinates": [[
-              [-122.189290, 37.419911],
-              [-122.189264, 37.419717],
-              [-122.189013, 37.419750],
-              [-122.189036, 37.419946],
-              [-122.189290, 37.419911]
-            ]]
-          }
-        },
-        {
-          "type": "Feature",
-          "properties": { "APN": "074-311-520" },
-          "geometry": {
-            "type": "Polygon",
-            "coordinates": [[
-              [-122.189022, 37.419746],
-              [-122.188997, 37.419553],
-              [-122.188746, 37.419586],
-              [-122.188769, 37.419781],
-              [-122.189022, 37.419746]
-            ]]
-          }
-        },
-        {
-          "type": "Feature",
-          "properties": { "APN": "074-311-530" },
-          "geometry": {
-            "type": "Polygon",
-            "coordinates": [[
-              [-122.188732, 37.419588],
-              [-122.188707, 37.419394],
-              [-122.188456, 37.419427],
-              [-122.188479, 37.419622],
-              [-122.188732, 37.419588]
-            ]]
-          }
-        },
-        {
-          "type": "Feature",
-          "properties": { "APN": "074-311-540" },
-          "geometry": {
-            "type": "Polygon",
-            "coordinates": [[
-              [-122.188449, 37.419426],
-              [-122.188425, 37.419233],
-              [-122.188173, 37.419266],
-              [-122.188197, 37.419459],
-              [-122.188449, 37.419426]
-            ]]
-          }
-        },
-        {
-          "type": "Feature",
-          "properties": { "APN": "074-311-550" },
-          "geometry": {
-            "type": "Polygon",
-            "coordinates": [[
-              [-122.188160, 37.419264],
-              [-122.188135, 37.419071],
-              [-122.187884, 37.419104],
-              [-122.187907, 37.419297],
-              [-122.188160, 37.419264]
-            ]]
-          }
+        var parcelStyle = {
+            color: "black",
+            weight: 1,
+            fillColor: "gray",
+            fillOpacity: 0.6
+        };
+
+        function onEachFeature(feature, layer) {
+            if (feature.properties && feature.properties.APN) {
+                var center = layer.getBounds().getCenter();
+                var label = L.divIcon({
+                    className: 'label-text',
+                    html: feature.properties.APN,
+                    iconSize: null
+                });
+                L.marker(center, { icon: label }).addTo(map);
+            }
         }
-      ]
-    };
 
-    L.geoJSON(geojson, {
-      style: parcelStyle,
-      onEachFeature: function (feature, layer) {
-        const apn = feature.properties.APN || "No APN";
-        layer.bindTooltip(apn, {
-          permanent: true,
-          direction: 'center',
-          className: 'leaflet-tooltip'
-        });
-      }
-    }).addTo(map);
-  </script>
+        L.geoJSON(parcelData, {
+            style: parcelStyle,
+            onEachFeature: onEachFeature
+        }).addTo(map);
+    </script>
 </body>
 </html>
