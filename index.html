@@ -22,7 +22,29 @@
         var geojson = {
             "type": "FeatureCollection",
             "features": [
-                // Replace this line with the contents of your ben_parcels_labeled.geojson file
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "APN": "074-311-510",
+                        "popup": "APN: 074-311-510",
+                        "style": {
+                            "color": "#555555",
+                            "weight": 1,
+                            "fillColor": "#888888",
+                            "fillOpacity": 0.8
+                        }
+                    },
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[
+                            [-122.18999, 37.41987],
+                            [-122.18990, 37.41985],
+                            [-122.18989, 37.41991],
+                            [-122.18999, 37.41987]
+                        ]]
+                    }
+                }
+                // Add the 4 other parcels here following this pattern
             ]
         };
 
