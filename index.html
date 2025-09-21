@@ -22,7 +22,7 @@
             maxZoom: 20
         }).addTo(map);
 
-        // ✅ Your 5 parcels with APNs and styles
+        // ✅ GeoJSON with all 5 parcels, styled
         var geojson = {
             "type": "FeatureCollection",
             "features": [
@@ -51,7 +51,14 @@
                         ]]
                     },
                     "properties": {
-                        "APN": "074311540"
+                        "APN": "074311540",
+                        "popup": "APN: 074311540",
+                        "style": {
+                            "color": "#555555",
+                            "weight": 1,
+                            "fillColor": "#888888",
+                            "fillOpacity": 0.8
+                        }
                     }
                 },
                 {
@@ -73,7 +80,14 @@
                         ]]
                     },
                     "properties": {
-                        "APN": "074311520"
+                        "APN": "074311520",
+                        "popup": "APN: 074311520",
+                        "style": {
+                            "color": "#555555",
+                            "weight": 1,
+                            "fillColor": "#888888",
+                            "fillOpacity": 0.8
+                        }
                     }
                 },
                 {
@@ -97,7 +111,14 @@
                         ]]
                     },
                     "properties": {
-                        "APN": "074311530"
+                        "APN": "074311530",
+                        "popup": "APN: 074311530",
+                        "style": {
+                            "color": "#555555",
+                            "weight": 1,
+                            "fillColor": "#888888",
+                            "fillOpacity": 0.8
+                        }
                     }
                 },
                 {
@@ -118,7 +139,14 @@
                         ]]
                     },
                     "properties": {
-                        "APN": "074311550"
+                        "APN": "074311550",
+                        "popup": "APN: 074311550",
+                        "style": {
+                            "color": "#555555",
+                            "weight": 1,
+                            "fillColor": "#888888",
+                            "fillOpacity": 0.8
+                        }
                     }
                 },
                 {
@@ -144,23 +172,32 @@
                         ]]
                     },
                     "properties": {
-                        "APN": "074311510"
+                        "APN": "074311510",
+                        "popup": "APN: 074311510",
+                        "style": {
+                            "color": "#555555",
+                            "weight": 1,
+                            "fillColor": "#888888",
+                            "fillOpacity": 0.8
+                        }
                     }
                 }
             ]
         };
 
-        // Add parcel layer with grey fill and APN popup
-        var layer = L.geoJSON(geojson, {
-            style: {
-                color: "#555",
-                weight: 1,
-                fillColor: "#888",
-                fillOpacity: 0.8
-            },
-            onEachFeature: function (feature, layer) {
-                layer.bindPopup("APN: " + feature.properties.APN);
+        function style(feature) {
+            return feature.properties.style;
+        }
+
+        function onEachFeature(feature, layer) {
+            if (feature.properties && feature.properties.popup) {
+                layer.bindPopup(feature.properties.popup);
             }
+        }
+
+        var layer = L.geoJSON(geojson, {
+            style: style,
+            onEachFeature: onEachFeature
         }).addTo(map);
 
         map.fitBounds(layer.getBounds());
