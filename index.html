@@ -1,163 +1,69 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <title>Ben's Parcels</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <style>
-        html, body, #map { height: 100%; margin: 0; padding: 0; }
-    </style>
+  <meta charset="utf-8" />
+  <title>Leaflet + Turf.js Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    #map { height: 100vh; }
+    .result {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: white;
+      padding: 6px 10px;
+      z-index: 1000;
+      font-family: sans-serif;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+  </style>
 </head>
 <body>
-    <div id="map"></div>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script>
-        var map = L.map('map');
+  <div id="map"></div>
+  <div class="result" id="result">Checking...</div>
 
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 20,
-            attribution: '© OpenStreetMap'
-        }).addTo(map);
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <!-- Turf JS -->
+  <script src="https://unpkg.com/@turf/turf@6.5.0/turf.min.js"></script>
 
-        var geojson = {
-            "type": "FeatureCollection",
-            "features": [
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "APN": "074-311-510",
-                        "popup": "APN: 074-311-510",
-                        "style": {
-                            "color": "#555555",
-                            "weight": 1,
-                            "fillColor": "#888888",
-                            "fillOpacity": 0.8
-                        }
-                    },
-                    "geometry": {
-                        "type": "Polygon",
-                        "coordinates": [[
-                            [-122.189648, 37.419884],
-                            [-122.189648, 37.419505],
-                            [-122.189236, 37.419505],
-                            [-122.189236, 37.419884],
-                            [-122.189648, 37.419884]
-                        ]]
-                    }
-                },
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "APN": "074-311-520",
-                        "popup": "APN: 074-311-520",
-                        "style": {
-                            "color": "#555555",
-                            "weight": 1,
-                            "fillColor": "#888888",
-                            "fillOpacity": 0.8
-                        }
-                    },
-                    "geometry": {
-                        "type": "Polygon",
-                        "coordinates": [[
-                            [-122.189236, 37.419884],
-                            [-122.189236, 37.419505],
-                            [-122.188824, 37.419505],
-                            [-122.188824, 37.419884],
-                            [-122.189236, 37.419884]
-                        ]]
-                    }
-                },
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "APN": "074-311-530",
-                        "popup": "APN: 074-311-530",
-                        "style": {
-                            "color": "#555555",
-                            "weight": 1,
-                            "fillColor": "#888888",
-                            "fillOpacity": 0.8
-                        }
-                    },
-                    "geometry": {
-                        "type": "Polygon",
-                        "coordinates": [[
-                            [-122.188824, 37.419884],
-                            [-122.188824, 37.419505],
-                            [-122.188412, 37.419505],
-                            [-122.188412, 37.419884],
-                            [-122.188824, 37.419884]
-                        ]]
-                    }
-                },
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "APN": "074-311-540",
-                        "popup": "APN: 074-311-540",
-                        "style": {
-                            "color": "#555555",
-                            "weight": 1,
-                            "fillColor": "#888888",
-                            "fillOpacity": 0.8
-                        }
-                    },
-                    "geometry": {
-                        "type": "Polygon",
-                        "coordinates": [[
-                            [-122.189648, 37.419505],
-                            [-122.189648, 37.419179],
-                            [-122.189236, 37.419179],
-                            [-122.189236, 37.419505],
-                            [-122.189648, 37.419505]
-                        ]]
-                    }
-                },
-                {
-                    "type": "Feature",
-                    "properties": {
-                        "APN": "074-311-550",
-                        "popup": "APN: 074-311-550",
-                        "style": {
-                            "color": "#555555",
-                            "weight": 1,
-                            "fillColor": "#888888",
-                            "fillOpacity": 0.8
-                        }
-                    },
-                    "geometry": {
-                        "type": "Polygon",
-                        "coordinates": [[
-                            [-122.189236, 37.419505],
-                            [-122.189236, 37.419179],
-                            [-122.188824, 37.419179],
-                            [-122.188824, 37.419505],
-                            [-122.189236, 37.419505]
-                        ]]
-                    }
-                }
-            ]
-        };
+  <script>
+    const map = L.map('map').setView([37.87, -122.27], 13); // Bay Area sample
 
-        function onEachFeature(feature, layer) {
-            if (feature.properties && feature.properties.popup) {
-                layer.bindPopup(feature.properties.popup);
-            }
-        }
+    // Add OpenStreetMap tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19
+    }).addTo(map);
 
-        function style(feature) {
-            return feature.properties.style;
-        }
+    // Sample polygon (rough rectangle)
+    const polygonCoords = [
+      [-122.29, 37.88],
+      [-122.26, 37.88],
+      [-122.26, 37.85],
+      [-122.29, 37.85],
+      [-122.29, 37.88]
+    ];
+    const polygon = turf.polygon([polygonCoords]);
 
-        var parcelLayer = L.geoJSON(geojson, {
-            style: style,
-            onEachFeature: onEachFeature
-        }).addTo(map);
+    const polygonLayer = L.polygon(polygonCoords.map(c => [c[1], c[0]]), {
+      color: 'blue', fillOpacity: 0.1
+    }).addTo(map);
 
-        // Auto-zoom to parcels
-        map.fitBounds([[37.419179688921545, -122.18964842617467], [37.41990652446279, -122.18817236724743]]);
-    </script>
+    // Sample point
+    const point = turf.point([-122.275, 37.865]);
+    const pointLayer = L.circleMarker([point.geometry.coordinates[1], point.geometry.coordinates[0]], {
+      radius: 8, color: 'red', fillOpacity: 0.9
+    }).addTo(map);
+
+    // Use Turf.js to check if point is inside polygon
+    const inside = turf.booleanPointInPolygon(point, polygon);
+
+    document.getElementById('result').innerText = inside
+      ? '✅ The point is INSIDE the polygon.'
+      : '❌ The point is OUTSIDE the polygon.';
+  </script>
 </body>
 </html>
