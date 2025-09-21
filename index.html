@@ -13,7 +13,8 @@
     <div id="map"></div>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        var map = L.map('map').setView([37.4197, -122.1899], 18);
+        var map = L.map('map');
+
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 20,
             attribution: '© OpenStreetMap'
@@ -37,14 +38,106 @@
                     "geometry": {
                         "type": "Polygon",
                         "coordinates": [[
-                            [-122.18999, 37.41987],
-                            [-122.18990, 37.41985],
-                            [-122.18989, 37.41991],
-                            [-122.18999, 37.41987]
+                            [-122.189648, 37.419884],
+                            [-122.189648, 37.419505],
+                            [-122.189236, 37.419505],
+                            [-122.189236, 37.419884],
+                            [-122.189648, 37.419884]
+                        ]]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "APN": "074-311-520",
+                        "popup": "APN: 074-311-520",
+                        "style": {
+                            "color": "#555555",
+                            "weight": 1,
+                            "fillColor": "#888888",
+                            "fillOpacity": 0.8
+                        }
+                    },
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[
+                            [-122.189236, 37.419884],
+                            [-122.189236, 37.419505],
+                            [-122.188824, 37.419505],
+                            [-122.188824, 37.419884],
+                            [-122.189236, 37.419884]
+                        ]]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "APN": "074-311-530",
+                        "popup": "APN: 074-311-530",
+                        "style": {
+                            "color": "#555555",
+                            "weight": 1,
+                            "fillColor": "#888888",
+                            "fillOpacity": 0.8
+                        }
+                    },
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[
+                            [-122.188824, 37.419884],
+                            [-122.188824, 37.419505],
+                            [-122.188412, 37.419505],
+                            [-122.188412, 37.419884],
+                            [-122.188824, 37.419884]
+                        ]]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "APN": "074-311-540",
+                        "popup": "APN: 074-311-540",
+                        "style": {
+                            "color": "#555555",
+                            "weight": 1,
+                            "fillColor": "#888888",
+                            "fillOpacity": 0.8
+                        }
+                    },
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[
+                            [-122.189648, 37.419505],
+                            [-122.189648, 37.419179],
+                            [-122.189236, 37.419179],
+                            [-122.189236, 37.419505],
+                            [-122.189648, 37.419505]
+                        ]]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "APN": "074-311-550",
+                        "popup": "APN: 074-311-550",
+                        "style": {
+                            "color": "#555555",
+                            "weight": 1,
+                            "fillColor": "#888888",
+                            "fillOpacity": 0.8
+                        }
+                    },
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[
+                            [-122.189236, 37.419505],
+                            [-122.189236, 37.419179],
+                            [-122.188824, 37.419179],
+                            [-122.188824, 37.419505],
+                            [-122.189236, 37.419505]
                         ]]
                     }
                 }
-                // Add the 4 other parcels here following this pattern
             ]
         };
 
@@ -58,10 +151,13 @@
             return feature.properties.style;
         }
 
-        L.geoJSON(geojson, {
+        var parcelLayer = L.geoJSON(geojson, {
             style: style,
             onEachFeature: onEachFeature
         }).addTo(map);
+
+        // Auto-zoom to parcels
+        map.fitBounds([[37.419179688921545, -122.18964842617467], [37.41990652446279, -122.18817236724743]]);
     </script>
 </body>
 </html>
